@@ -12,7 +12,11 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.example.walkysocial.Activities.Inscription
 import com.example.walkysocial.Services.BluetoothService
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +25,28 @@ class MainActivity : AppCompatActivity() {
         Log.d("Test Fonctionnement", "Allo c moi");
         val intent = Intent(applicationContext, BluetoothService::class.java)
         applicationContext.startForegroundService(intent)
+
+        // Verification si l'utilisateur existe
+
+        val db = Firebase.firestore
+        var profils = db.collection("user")
+
+
+        // Create a query against the collection.
+        val query = profils.whereEqualTo("macAdress", "test")
+        query.get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                val size = it.result.size();
+                if (size == 0 ) {
+                    // Le joueur doit s'inscrire
+                    val insc = Intent(applicationContext, Inscription::class.java)
+                    startActivity(insc)
+                    finish()
+                }else {
+                    // Le joueur existe
+                }
+            }
+        }
 
         // Rendre l'appareil visible
 

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "11252909522",
+    "project_id": "walkysocial",
+    "storage_bucket": "walkysocial.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:11252909522:android:9ac82c6ba0ed74c23f340b",
+        "android_client_info": {
+          "package_name": "fr.isen.walkysocial"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "11252909522-7inr0olb0lq5pdm936gavt3dcunavooa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQ-MlHiYMvrpADt7aIlvrrytoIotVB1pk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "11252909522-7inr0olb0lq5pdm936gavt3dcunavooa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
