@@ -4,9 +4,12 @@ import android.Manifest
 import android.R
 import android.app.*
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
 import android.bluetooth.le.BluetoothLeScanner
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.IBinder
 import android.util.Log
@@ -28,6 +31,8 @@ class BluetoothService : Service() {
         // Ajoutez votre logique de création de service ici
 
     }
+
+
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d("Test Fonctionnement", "Ca maarche")
@@ -54,29 +59,7 @@ class BluetoothService : Service() {
 
         startForeground(1234, notification)
 
-         val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.BLUETOOTH_CONNECT
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return START_STICKY_COMPATIBILITY
-        }
-        var list = bluetoothAdapter?.bondedDevices?.toList() ?: emptyList()
 
-        if(list.isEmpty()) {
-            Log.d("test", "vide")
-        }
-        for(item in list) {
-            Log.d("test", item.toString())
-        }
 
         // Ajoutez votre logique de service ici
         return START_STICKY
