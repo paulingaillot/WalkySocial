@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Demande Accès Bluetooth -->
     <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE"/>
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
+
+    <!-- Demande Accès Tache en Foreground -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <!--  Acces positions Requis pour detecter appareils Bluetooth a proximité -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
@@ -16,13 +21,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.WalkySocial"
-        tools:targetApi="31">
+        tools:targetApi="33">
         <service
             android:name=".Services.BluetoothService"
-            android:enabled="true"
-            android:exported="true" />
-        <service
-            android:name=".MyService"
             android:enabled="true"
             android:exported="true" />
 
