@@ -8,6 +8,8 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- Acces positions Requis pour detecter appareils Bluetooth a proximité -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
         android:allowBackup="true"
@@ -19,11 +21,14 @@
         android:theme="@style/Theme.WalkySocial"
         tools:targetApi="33">
         <activity
-            android:name=".History"
+            android:name=".Activities.Connexion"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.History"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,7 +42,7 @@
             android:theme="@style/Theme.WalkySocial.NoActionBar" />
 
         <service
-            android:name=".Services.BluetoothService"
+            android:name=".Services.GPSService"
             android:enabled="true"
             android:exported="true" />
 

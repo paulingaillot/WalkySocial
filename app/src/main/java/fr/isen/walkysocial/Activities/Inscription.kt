@@ -27,26 +27,19 @@ class Inscription : AppCompatActivity() {
 
             var username = findViewById<EditText>(R.id.editTextTextPersonName)
             var radiogroup = findViewById<RadioGroup>(R.id.radiogroup)
+            var password = findViewById<EditText>(R.id.password)
 
             if(radiogroup.checkedRadioButtonId != 0 && username.text.isNotEmpty()) {
-                Log.d("button", radiogroup.checkedRadioButtonId.toString())
-                Log.d("username", username.text.toString())
                 var radiobutcheck = findViewById<RadioButton>(radiogroup.checkedRadioButtonId)
-                Log.d("button", radiobutcheck.text.toString())
 
-                // Recuperer Adresse mac de l'appareil en question
-
-                var bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-                val macAddress = bluetoothAdapter.address
-                Log.d("MAC address", macAddress)
-
-                var user = User(username.text.toString(), radiobutcheck.text.toString(), macAddress)
+                var user = User(username.text.toString(), radiobutcheck.text.toString(), password.text.toString())
 
                 val db = Firebase.firestore
                 var profils = db.collection("user")
 
                 profils.add(user)
 
+                MainActivity.user = user
                 val main = Intent(applicationContext, MainActivity::class.java)
                 startActivity(main)
                 finish()
