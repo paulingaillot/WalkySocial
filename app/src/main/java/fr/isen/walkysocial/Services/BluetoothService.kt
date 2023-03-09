@@ -1,4 +1,4 @@
-package com.example.walkysocial.Services
+package fr.isen.walkysocial.Services
 
 import android.Manifest
 import android.R

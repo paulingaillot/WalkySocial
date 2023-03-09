@@ -1,12 +1,12 @@
-package com.example.walkysocial.Activities
+package fr.isen.walkysocial.Activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.walkysocial.R
+import fr.isen.walkysocial.R
 
-class Inscription : AppCompatActivity() {
+class History : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_inscription)
+        setContentView(R.layout.activity_history)
     }
 }
