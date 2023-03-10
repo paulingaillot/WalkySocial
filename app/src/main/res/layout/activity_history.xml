@@ -21,29 +21,63 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Note: A RecyclerView can also be used -->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/test">
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintTop_toBottomOf="@id/test"
-        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:contentDescription="@string/history">
+        <!-- NestedScrollingChild goes here (NestedScrollView, RecyclerView, etc.). -->
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_behavior="@string/searchbar_scrolling_view_behavior">
+            <!-- Screen content goes here. -->
+        </androidx.core.widget.NestedScrollView>
 
-        <!-- Scrollable content -->
 
-    </androidx.core.widget.NestedScrollView>
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/testt"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/test">
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <SearchView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            app:layout_anchor="@id/testt"
+            app:layout_constraintTop_toBottomOf="@+id/test"
+            tools:layout_editor_absoluteX="1dp">
+
+        </SearchView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white_green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_navigation_menu" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:id="@+id/list"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/coordinatorLayout"></LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

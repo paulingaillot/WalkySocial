@@ -57,12 +57,8 @@ class GPSService : Service() {
 
         val builder: NotificationCompat.Builder = NotificationCompat.Builder(this, "channel_id")
             .setSmallIcon(R.drawable.ic_notification_overlay)
-            .setContentTitle("WalkySocial ")
-            .setContentText("Much longer text that cannot fit one line...")
-            .setStyle(
-                NotificationCompat.BigTextStyle()
-                    .bigText("Much longer text that cannot fit one line...")
-            )
+            .setContentTitle("WalkySocial is running")
+            .setContentText("You can now encounter new people")
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(false)
 
@@ -130,6 +126,22 @@ class GPSService : Service() {
                                             }
 
                                         }
+
+                                        val builder: NotificationCompat.Builder = NotificationCompat.Builder(this@GPSService, "channel_id")
+                                            .setSmallIcon(R.drawable.ic_notification_overlay)
+                                            .setContentTitle("WalkySocial is running")
+                                            .setContentText("You can now encounter new people")
+                                            .setStyle(
+                                                NotificationCompat.BigTextStyle()
+                                                    .bigText("You just Encounter "+user1.username+" ! Keep walking to meet more people")
+                                            )
+                                            .setPriority(NotificationCompat.PRIORITY_HIGH)
+                                            .setAutoCancel(false)
+
+                                        val notification = builder.build()
+
+                                        startForeground(1234, notification)
+
                                     }
                                 }
                             }
