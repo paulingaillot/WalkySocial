@@ -75,23 +75,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
 
     }
 
-    // Create a BroadcastReceiver for ACTION_FOUND.
-    private class SingBroadcastReceiver : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent) {
-
-            val action = intent.action //may need to chain this to a recognizing function
-            Log.d("test", "Aller les bleus : $action")
-            if (BluetoothDevice.ACTION_FOUND == action) {
-                // Get the BluetoothDevice object from the Intent
-                val device =
-                    intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
-                // Add the name and address to an array adapter to show in a Toast
-                val derp = device!!.address
-                Log.d("test", "test $derp")
-            }
-        }
-    }
-
     private var map: GoogleMap? = null
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
@@ -125,6 +108,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
         } catch (e: Exception) {
 
         }
+
+        // Chargement des points autours
 
 
     }
