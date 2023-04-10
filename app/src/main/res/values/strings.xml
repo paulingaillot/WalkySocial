@@ -12,4 +12,8 @@
     <string name="profil">Profil</string>
     <string name="map">Map</string>
     <string name="history">History</string>
+    <string name="boss">Boss</string>
+    <string name="shop">Shop</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

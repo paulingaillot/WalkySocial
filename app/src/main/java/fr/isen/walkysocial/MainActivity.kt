@@ -7,8 +7,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.*
+import android.graphics.drawable.Drawable
 import android.location.Location
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -19,17 +22,59 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.google.android.material.progressindicator.LinearProgressIndicator
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import fr.isen.walkysocial.Activities.Connexion
+import fr.isen.walkysocial.Activities.Fight
 import fr.isen.walkysocial.Activities.History
+import fr.isen.walkysocial.Models.Boss
 import fr.isen.walkysocial.Models.User
 import fr.isen.walkysocial.Services.GPSService
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.concurrent.timerTask
 
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationClickListener,
     GoogleMap.OnMyLocationButtonClickListener {
 
+
+    override fun onStart() {
+        super.onStart()
+
+        // Écouter les Intent d'ouverture de l'application
+        FirebaseDynamicLinks.getInstance().getDynamicLink(intent)
+            .addOnSuccessListener { pendingDynamicLinkData ->
+                // Récupérer le lien dynamique s'il existe
+                val deepLink: Uri? = pendingDynamicLinkData?.link
+
+                // Vérifier si le lien dynamique existe
+                if (deepLink != null) {
+                    // Récupérer les données du lien dynamique si nécessaire
+                    val id = deepLink.getQueryParameter("BossId")
+
+                    // Rediriger vers l'activité spécifique en fonction du lien dynamique
+                    if (deepLink.path == "/deep_link") {
+                        // Rediriger vers l'activité spécifique de votre application
+                        val intent = Intent(this, Fight::class.java)
+                        // Passer les données du lien dynamique si nécessaire
+                        intent.putExtra("BossId", id)
+                        startActivity(intent)
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                // Gestion des erreurs
+            }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,22 +92,25 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
             val intent = Intent(applicationContext, GPSService::class.java)
             applicationContext.startForegroundService(intent)
 
-            // Maps
-
-            // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-            val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.mapView) as SupportMapFragment?
-            mapFragment!!.getMapAsync(this)
-
             // Boutons
             val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+            bottomNavigation.selectedItemId = R.id.item_3
             bottomNavigation.setOnItemSelectedListener { item ->
                 when (item.itemId) {
                     R.id.item_1 -> {
+                        val fight = Intent(applicationContext, Fight::class.java)
+                        startActivity(fight)
+                        finish()
+                      true
+                    }
+                    R.id.item_2 -> {
+                        true
+                    }
+                    R.id.item_3-> {
                         // Respond to navigation item 1 click
                         true
                     }
-                    R.id.item_2 -> {
+                    R.id.item_4 -> {
                         val hist = Intent(applicationContext, History::class.java)
                         startActivity(hist)
                         finish()
@@ -71,6 +119,35 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
                     else -> false
                 }
             }
+
+            // getBooses
+            val db = Firebase.firestore
+            var profils = db.collection("boss")
+
+            bosses = ArrayList()
+            profils.get().addOnCompleteListener {
+                it.result.forEach {boss ->
+                    bosses.add(boss.toObject(Boss::class.java))
+                }
+            }
+
+            //Update HP User
+
+            val timer = Timer()
+            timer.scheduleAtFixedRate(timerTask {
+                user.updateHP()
+            },0, 60 * 1000)
+
+            // Maps
+
+            val mapFragment = supportFragmentManager
+                .findFragmentById(R.id.mapView) as SupportMapFragment?
+            mapFragment!!.getMapAsync(this)
+
+
+            //Affichage HP user
+
+            findViewById<LinearProgressIndicator>(R.id.progress).progress = user.getLifePercent().toInt()
         }
 
     }
@@ -110,8 +187,47 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
         }
 
         // Chargement des points autours
+        val db = Firebase.firestore
+        val boss = db.collection("boss")
+        boss.get().addOnCompleteListener {it ->
+            for (doc in it.result.documents) {
+                var boss:Boss = doc.toObject(Boss::class.java)!!
+                map!!.addMarker(
+                    MarkerOptions()
+                        .flat(false)
+                        .icon(
+                            bitmapDescriptorFromVector(
+                                this,
+                                R.drawable.radio_button_unchecked,
+                                R.color.green
+                            )
+                        )
+                        .position(LatLng(boss.position.lat, boss.position.long))
+                        .title("Boss")
+                        .snippet("${boss.HP} / ${boss.max_HP}")
+                )
+            }
+        }
 
+    }
 
+    private fun bitmapDescriptorFromVector(
+        context: Context,
+        vectorResId: Int,
+        color: Int
+    ): BitmapDescriptor {
+        val vectorDrawable: Drawable? = ContextCompat.getDrawable(context, vectorResId)
+        //val width = (context.resources.displayMetrics.widthPixels * 0.05).toInt()
+        //val height = width
+        vectorDrawable?.setBounds(0, 0, 30, 30)
+        vectorDrawable?.alpha = 150
+        val colorFilter: ColorFilter =
+            PorterDuffColorFilter(ContextCompat.getColor(this, color), PorterDuff.Mode.SRC_IN)
+        vectorDrawable?.colorFilter = colorFilter
+        val bitmap = Bitmap.createBitmap(30, 30, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        vectorDrawable?.draw(canvas)
+        return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 
     override fun onMyLocationButtonClick(): Boolean {
@@ -168,12 +284,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
 
 
     companion object {
-        /**
-         * Request code for location permission request.
-         *
-         * @see .onRequestPermissionsResult
-         */
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
         var user: User = User()
+        var bosses: ArrayList<Boss> = ArrayList()
     }
 }

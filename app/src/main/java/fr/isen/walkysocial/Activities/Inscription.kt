@@ -13,6 +13,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import fr.isen.walkysocial.MainActivity
 import fr.isen.walkysocial.Models.User
+import fr.isen.walkysocial.Models.UserClass
 import fr.isen.walkysocial.R
 
 class Inscription : AppCompatActivity() {
@@ -32,17 +33,31 @@ class Inscription : AppCompatActivity() {
             if(radiogroup.checkedRadioButtonId != 0 && username.text.isNotEmpty()) {
                 var radiobutcheck = findViewById<RadioButton>(radiogroup.checkedRadioButtonId)
 
-                var user = User(username.text.toString(), radiobutcheck.text.toString(), password.text.toString())
+                var userClass = UserClass.TANK;
+                when(radiobutcheck.text.toString()) {
+                    "Tank" ->
+                        userClass = UserClass.TANK;
+                    "Guerrier" ->
+                        userClass = UserClass.GUERRIER
+                    "Archer" ->
+                        userClass = UserClass.ARCHER
+                    "Mage" ->
+                        userClass = UserClass.MAGE
+                }
+
+                var user = User(username.text.toString(), userClass , password.text.toString())
 
                 val db = Firebase.firestore
                 var profils = db.collection("user")
 
-                profils.add(user)
+                profils.add(user).addOnCompleteListener {
+                    MainActivity.user = user
+                    val main = Intent(applicationContext, MainActivity::class.java)
+                    startActivity(main)
+                    finish()
+                }
 
-                MainActivity.user = user
-                val main = Intent(applicationContext, MainActivity::class.java)
-                startActivity(main)
-                finish()
+
 
             }
 

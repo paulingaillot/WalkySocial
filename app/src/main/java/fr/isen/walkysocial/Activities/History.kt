@@ -85,16 +85,16 @@ class History : AppCompatActivity() {
         // Boutons
 
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        bottomNavigation.selectedItemId = R.id.item_2
+        bottomNavigation.selectedItemId = R.id.item_4
         bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.item_1 -> {
+                R.id.item_3 -> {
                     val main = Intent(applicationContext, MainActivity::class.java)
                     startActivity(main)
                     finish()
                     true
                 }
-                R.id.item_2 -> {
+                R.id.item_4 -> {
 
                     true
                 }

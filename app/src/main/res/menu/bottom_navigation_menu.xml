@@ -3,10 +3,20 @@
     <item
         android:id="@+id/item_1"
         android:enabled="true"
+        android:icon="@drawable/sports_mma"
+        android:title="@string/boss"/>
+    <item
+        android:id="@+id/item_2"
+        android:enabled="true"
+        android:icon="@drawable/store"
+        android:title="@string/shop"/>
+    <item
+        android:id="@+id/item_3"
+        android:enabled="true"
         android:icon="@drawable/explore"
         android:title="@string/map"/>
     <item
-        android:id="@+id/item_2"
+        android:id="@+id/item_4"
         android:enabled="true"
         android:icon="@drawable/history"
         android:title="@string/history"/>

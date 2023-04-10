@@ -21,6 +21,24 @@
         android:theme="@style/Theme.WalkySocial"
         tools:targetApi="33">
         <activity
+            android:name=".Activities.Fight"
+            android:exported="true">
+            <!-- Définir une Intent Filter pour votre activité -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- Définir le schéma et l'hôte pour votre lien dynamique -->
+                <data
+                    android:scheme="https"
+                    android:host="walkysocial.page.link" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activities.Profil"
+            android:exported="false" />
+        <activity
             android:name=".Activities.Connexion"
             android:exported="false" />
         <activity
