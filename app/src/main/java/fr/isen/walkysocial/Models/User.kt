@@ -45,6 +45,8 @@ class User {
     constructor()
 
     fun save() {
+        this.isConnected = System.currentTimeMillis()
+
         val db = Firebase.firestore
         val profils = db.collection("user")
 
@@ -114,7 +116,7 @@ class User {
                     this.Atk++;
                 }
                 UserClass.MAGE -> {
-                    this.HP++
+                    this.HP_Max++
                 }
             }
         }

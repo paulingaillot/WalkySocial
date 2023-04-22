@@ -33,6 +33,7 @@ class GPSService : Service() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var lastrencontre = 0L
     private lateinit var timer : Timer
+    private var notif: Boolean = true
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
@@ -62,16 +63,7 @@ class GPSService : Service() {
         )
         notificationManager.createNotificationChannel(channel)
 
-        val builder: NotificationCompat.Builder = NotificationCompat.Builder(this, "channel_id")
-            .setSmallIcon(R.drawable.ic_notification_overlay)
-            .setContentTitle("WalkySocial is running")
-            .setContentText("You can now encounter new people")
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setAutoCancel(false)
-
-        val notification = builder.build()
-
-        startForeground(1234, notification)
+        updateNotif("You can now encounter new people")
 
         timer = Timer()
         timer.scheduleAtFixedRate(object : TimerTask() {
@@ -119,6 +111,7 @@ class GPSService : Service() {
                                         MainActivity.user.save()
                                         lastrencontre = System.currentTimeMillis()
                                         updateNotif("You just Encounter " + user1.username + " ! Keep walking to meet more people")
+                                        notif = false
                                     } else {
                                         if (MainActivity.user.AvatarRencontre[user1.uid]!!.date_last_rencontre < (System.currentTimeMillis() - 86400000)) {
                                             var recontre = Rencontre()
@@ -137,11 +130,13 @@ class GPSService : Service() {
 
                                             lastrencontre = System.currentTimeMillis()
                                             updateNotif("You just Encounter " + user1.username + " ! Keep walking to meet more people")
+                                            notif = false
                                         }
 
                                     }
                                 }
-                                if (lastrencontre + 2 * 60 * 1000 < System.currentTimeMillis()) {
+                                if (lastrencontre + 2 * 60 * 1000 < System.currentTimeMillis() && !notif) {
+                                    notif = true;
                                     updateNotif("You can now encounter new people")
                                 }
                             }
