@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
@@ -35,6 +36,7 @@ import com.google.firebase.ktx.Firebase
 import fr.isen.walkysocial.Activities.Connexion
 import fr.isen.walkysocial.Activities.Fight
 import fr.isen.walkysocial.Activities.History
+import fr.isen.walkysocial.Activities.Profil
 import fr.isen.walkysocial.Models.Boss
 import fr.isen.walkysocial.Models.User
 import fr.isen.walkysocial.Services.GPSService
@@ -118,6 +120,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
                     }
                     else -> false
                 }
+            }
+
+            val buttonProfil = findViewById<FloatingActionButton>(R.id.buttonProfil)
+            buttonProfil.setOnClickListener {
+                val intent = Intent(applicationContext, Profil::class.java)
+                startActivity(intent)
             }
 
             // getBooses
