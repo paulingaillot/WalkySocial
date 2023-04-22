@@ -16,15 +16,15 @@
     <string name="shop">Shop</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="pv">PV : %1$s / %2$s</string>
+    <string name="pv">HP : %1$s / %2$s</string>
     <string name="defense">Defense : %1$s</string>
-    <string name="attaque">Attaque : %1$s</string>
+    <string name="attaque">Attack : %1$s</string>
     <string name="type">Type : %1$s</string>
-    <string name="change_username">Changer de nom</string>
-    <string name="write_username">Nouveau nom</string>
-    <string name="sauvegarder">Sauvegarder</string>
-    <string name="annuler">Annuler</string>
-    <string name="supprimerVotreCompte">Supprimer votre compte</string>
-    <string name="voulezvousVraimentSupprimerVotreCompte">Voulez-vous vraiment supprimer votre compte ?\n</string>
-    <string name="Oui">Oui</string>
+    <string name="change_username">Change username</string>
+    <string name="write_username">New username</string>
+    <string name="sauvegarder">Save</string>
+    <string name="annuler">Cancel</string>
+    <string name="supprimerVotreCompte">Delete your account</string>
+    <string name="voulezvousVraimentSupprimerVotreCompte">Are you sure you want to delete your account?\n</string>
+    <string name="Oui">Yes</string>
 </resources>

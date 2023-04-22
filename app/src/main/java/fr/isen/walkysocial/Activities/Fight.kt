@@ -1,22 +1,26 @@
 package fr.isen.walkysocial.Activities
 
+import android.app.AlertDialog
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.GradientDrawable.Orientation
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.children
 import androidx.fragment.app.FragmentContainerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.dynamiclinks.DynamicLink
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
-import com.google.firebase.dynamiclinks.ShortDynamicLink
 import com.google.firebase.dynamiclinks.ktx.shortLinkAsync
 import fr.isen.walkysocial.Fragments.FightSpecific
 import fr.isen.walkysocial.MainActivity
@@ -163,6 +167,56 @@ class Fight : AppCompatActivity() {
             val shortLink = it.result.shortLink
             Log.d("test", shortLink.toString())
             // Utilisez le lien dynamique raccourci comme nécessaire
+            val builder = AlertDialog.Builder(this)
+            builder.setMessage("Invite friends")
+
+            // Créer un EditText et l'ajouter à la vue de la popup
+            val textView = TextView(this)
+            textView.setText(shortLink.toString())
+            textView.layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            textView.setOnClickListener {
+                val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                val clipData = ClipData.newPlainText("label", textView.text)
+                clipboardManager.setPrimaryClip(clipData)
+                Toast.makeText(this, "Text copied to clipboard", Toast.LENGTH_SHORT).show()
+            }
+            builder.setView(textView)
+
+            builder.setPositiveButton("Share") { _, _ ->
+                // Action à effectuer lorsque l'utilisateur clique sur Copy
+                // Création de l'intent pour partager le texte
+                val shareIntent = Intent(Intent.ACTION_SEND)
+                shareIntent.type = "text/plain"
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shortLink.toString())
+
+                // Vérification si une application peut gérer l'intent de partage
+                val packageManager = packageManager
+                val activities: List<ResolveInfo> =
+                    packageManager.queryIntentActivities(shareIntent, PackageManager.MATCH_DEFAULT_ONLY)
+                val isIntentSafe = activities.isNotEmpty()
+
+                // Lancement de l'intent de partage si une application peut le gérer, sinon affichage d'un message
+                if (isIntentSafe) {
+                    startActivity(Intent.createChooser(shareIntent, "Share via"))
+                } else {
+                    Toast.makeText(this, "No sharing app is available", Toast.LENGTH_SHORT).show()
+                }
+            }
+            builder.setNegativeButton(
+                "Copy to clipboard"
+            ) { _, _ ->
+                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+                // Copie du texte dans le presse-papier
+                clipboard.setPrimaryClip(ClipData.newPlainText("Text copied", shortLink.toString()))
+
+                Toast.makeText(this, "Text copied to clipboard", Toast.LENGTH_SHORT).show()
+            }
+            val dialog = builder.create()
+            dialog.show()
         }
     }
 }
