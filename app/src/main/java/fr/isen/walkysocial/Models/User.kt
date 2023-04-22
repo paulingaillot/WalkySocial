@@ -1,5 +1,7 @@
 package fr.isen.walkysocial.Models
 
+import android.content.ComponentCallbacks
+import android.content.Intent
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import fr.isen.walkysocial.MainActivity
@@ -8,7 +10,7 @@ import kotlin.random.Random
 class User {
 
     var username: String = ""
-    var password: String = ""
+    var uid: String = ""
 
     var classe: UserClass = UserClass.TANK
 
@@ -24,10 +26,10 @@ class User {
 
     var AvatarRencontre: HashMap<String, Rencontre> = HashMap()
 
-    constructor(username: String, classe: UserClass, password: String) {
+    constructor(username: String, classe: UserClass, uid: String) {
         this.username = username
         this.classe = classe
-        this.password = password
+        this.uid = uid
         this.HP = 500
         this.HP_Max = 500
         this.Atk = 1
@@ -83,6 +85,23 @@ class User {
 
     fun getLifePercent():Double {
         return ((this.HP*100)/(this.HP_Max)).toDouble();
+    }
+
+    companion object {
+        fun getUserByUid(uid: String, callback: (User) -> Unit) {
+            var user = User()
+
+            val db = Firebase.firestore
+            val profils = db.collection("user")
+
+            profils.whereEqualTo("uid", uid).get().addOnCompleteListener {
+                if (it.result.size() == 0) {
+                    callback(User())
+                } else {
+                    callback(it.result.documents[0].toObject(User::class.java)!!)
+                }
+            }
+        }
     }
 
 }
