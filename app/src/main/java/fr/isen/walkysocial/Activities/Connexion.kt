@@ -4,10 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -23,6 +26,17 @@ class Connexion : AppCompatActivity() {
         var but = findViewById<Button>(R.id.button2)
         var but2 = findViewById<Button>(R.id.button3)
 
+        val user = FirebaseAuth.getInstance().currentUser
+        if(user != null) {
+            User.getUserByUid(user.uid) {
+               MainActivity.user= it
+                val main = Intent(applicationContext, MainActivity::class.java)
+                startActivity(main)
+                finish()
+            }
+        }else {
+            findViewById<ConstraintLayout>(R.id.loading).visibility= View.GONE
+        }
 
         but.setOnClickListener {
 

@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import fr.isen.walkysocial.MainActivity
 import fr.isen.walkysocial.MainActivity.Companion.user
 import fr.isen.walkysocial.R
@@ -91,6 +92,7 @@ class Profil : AppCompatActivity() {
 
 
         butDeco.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
             //deconnecter l'utilisateur
             val intentStop = Intent(this, GPSService::class.java)
             intentStop.action = "ACTION_STOP_SERVICE"
