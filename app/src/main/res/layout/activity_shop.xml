@@ -6,10 +6,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:isScrollContainer="true"
     tools:context=".Activities.Shop"
     tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="0dp"
-    android:isScrollContainer="true">
+    tools:layout_editor_absoluteY="0dp">
 
 
     <LinearLayout
@@ -27,7 +27,7 @@
             android:id="@+id/logoShop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/storefront"/>
+            app:srcCompat="@drawable/storefront" />
 
         <TextView
             android:id="@+id/titleShop"
@@ -127,7 +127,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Cost : "/>
+                            android:text="@string/Cost" />
 
                         <TextView
                             android:id="@+id/prix_attackPotion"
@@ -136,8 +136,8 @@
                             android:text="0" />
 
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             app:srcCompat="@drawable/coin" />
 
                     </LinearLayout>
@@ -148,7 +148,7 @@
                         android:layout_height="50dp"
                         android:layout_marginTop="10dp"
                         android:text="Boost attack for 5 minutes"
-                        android:textAlignment="center"/>
+                        android:textAlignment="center" />
 
                 </LinearLayout>
 
@@ -174,7 +174,7 @@
                             android:layout_width="45dp"
                             android:layout_height="40dp"
                             android:layout_marginBottom="2dp"
-                            android:text="▲" />
+                            android:text="@string/flecheHaut" />
 
                         <TextView
                             android:id="@+id/attackPotion_nbBuy"
@@ -189,19 +189,19 @@
                             android:layout_width="45dp"
                             android:layout_height="40dp"
                             android:layout_marginTop="2dp"
-                            android:text="▼" />
+                            android:text="@string/flecheBas" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
+
                         <Button
                             android:id="@+id/attackPotion_buttonBuy"
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
-
-                            android:text="Buy"
+                            android:text="@string/Buy"
                             android:textSize="14sp" />
 
                     </LinearLayout>
@@ -220,7 +220,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:backgroundTint="#D9D9D9"
-                        android:text="Use"
+                        android:text="@string/Use"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
 
@@ -271,7 +271,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Cost : "/>
+                            android:text="@string/Cost" />
 
                         <TextView
                             android:id="@+id/prix_defensePotion"
@@ -280,8 +280,8 @@
                             android:text="0" />
 
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             app:srcCompat="@drawable/coin" />
 
                     </LinearLayout>
@@ -292,7 +292,7 @@
                         android:layout_height="50dp"
                         android:layout_marginTop="10dp"
                         android:text="Boost defense for 5 minutes"
-                        android:textAlignment="center"/>
+                        android:textAlignment="center" />
 
                 </LinearLayout>
 
@@ -318,7 +318,7 @@
                             android:layout_width="45dp"
                             android:layout_height="40dp"
                             android:layout_marginBottom="2dp"
-                            android:text="▲" />
+                            android:text="@string/flecheHaut" />
 
                         <TextView
                             android:id="@+id/defensePotion_nbBuy"
@@ -333,19 +333,19 @@
                             android:layout_width="45dp"
                             android:layout_height="40dp"
                             android:layout_marginTop="2dp"
-                            android:text="▼" />
+                            android:text="@string/flecheBas" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
+
                         <Button
                             android:id="@+id/defensePotion_buttonBuy"
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
-
-                            android:text="Buy"
+                            android:text="@string/Buy"
                             android:textSize="14sp" />
 
                     </LinearLayout>
@@ -364,11 +364,303 @@
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:backgroundTint="#D9D9D9"
-                        android:text="Use"
+                        android:text="@string/Use"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
 
                 </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/PVPotion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/PVPotion_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|top"
+                    android:orientation="vertical">
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="12dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" />
+                    </ScrollView>
+
+                    <TextView
+                        android:id="@+id/PVPotion_title"
+                        android:layout_width="173dp"
+                        android:layout_height="44dp"
+                        android:gravity="center|start"
+                        android:text="PV potion"
+                        android:textAlignment="center"
+                        android:textSize="24sp" />
+
+                    <LinearLayout
+                        android:id="@+id/PVPotion_prix"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Cost" />
+
+                        <TextView
+                            android:id="@+id/prix_PVPotion"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            app:srcCompat="@drawable/coin" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/PVPotion_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Boost PV for 5 minutes"
+                        android:textAlignment="center" />
+
+                </LinearLayout>
+
+                <!--    Boutons-->
+                <LinearLayout
+                    android:id="@+id/PVPotion_buttons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+
+                    <LinearLayout
+                        android:id="@+id/PVPotion_buttonsBuy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/PVPotion_buttonTopBuy"
+                            style="@style/Widget.AppCompat.Button.Small"
+                            android:layout_width="45dp"
+                            android:layout_height="40dp"
+                            android:layout_marginBottom="2dp"
+                            android:text="@string/flecheHaut" />
+
+                        <TextView
+                            android:id="@+id/PVPotion_nbBuy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1"
+                            android:textAlignment="center" />
+
+                        <Button
+                            android:id="@+id/PVPotion_buttonBottomBuy"
+                            style="@style/Widget.AppCompat.Button.Small"
+                            android:layout_width="45dp"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/flecheBas" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/PVPotion_buttonBuy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:text="@string/Buy"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/PVPotion_nbUse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:text=""
+                        android:textAlignment="center" />
+
+                    <Button
+                        android:id="@+id/PVPotion_buttonUse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:backgroundTint="#D9D9D9"
+                        android:text="@string/Use"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/dodgePotion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/dodgePotion_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|top"
+                    android:orientation="vertical">
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="12dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" />
+                    </ScrollView>
+
+                    <TextView
+                        android:id="@+id/dodgePotion_title"
+                        android:layout_width="173dp"
+                        android:layout_height="44dp"
+                        android:gravity="center|start"
+                        android:text="Dodge potion"
+                        android:textAlignment="center"
+                        android:textSize="24sp" />
+
+                    <LinearLayout
+                        android:id="@+id/dodgePotion_prix"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Cost"/>
+
+                        <TextView
+                            android:id="@+id/prix_dodgePotion"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            app:srcCompat="@drawable/coin" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/dodgePotion_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Boost dodge for 5 minutes"
+                        android:textAlignment="center"/>
+
+                </LinearLayout>
+
+                <!--    Boutons-->
+                <LinearLayout
+                    android:id="@+id/dodgePotion_buttons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+
+                    <LinearLayout
+                        android:id="@+id/dodgePotion_buttonsBuy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/dodgePotion_buttonTopBuy"
+                            style="@style/Widget.AppCompat.Button.Small"
+                            android:layout_width="45dp"
+                            android:layout_height="40dp"
+                            android:layout_marginBottom="2dp"
+                            android:text="@string/flecheHaut" />
+
+                        <TextView
+                            android:id="@+id/dodgePotion_nbBuy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1"
+                            android:textAlignment="center" />
+
+                        <Button
+                            android:id="@+id/dodgePotion_buttonBottomBuy"
+                            style="@style/Widget.AppCompat.Button.Small"
+                            android:layout_width="45dp"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/flecheBas" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <Button
+                            android:id="@+id/dodgePotion_buttonBuy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:text="@string/Buy"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/dodgePotion_nbUse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:text=""
+                        android:textAlignment="center" />
+
+                    <Button
+                        android:id="@+id/dodgePotion_buttonUse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:backgroundTint="#D9D9D9"
+                        android:text="@string/Use"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+
             </LinearLayout>
 
         </LinearLayout>

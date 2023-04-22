@@ -89,6 +89,18 @@ class History : AppCompatActivity() {
         bottomNavigation.selectedItemId = R.id.item_4
         bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
+                R.id.item_1 -> {
+                    val fight = Intent(applicationContext, Fight::class.java)
+                    startActivity(fight)
+                    finish()
+                    true
+                }
+                R.id.item_2 -> {
+                    val shop = Intent(applicationContext, Shop::class.java)
+                    startActivity(shop)
+                    finish()
+                    true
+                }
                 R.id.item_3 -> {
                     val main = Intent(applicationContext, MainActivity::class.java)
                     finish()

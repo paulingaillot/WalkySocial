@@ -27,6 +27,8 @@ class User {
     var position: Position = Position(0.0,0.0)
     var isConnected: Long = System.currentTimeMillis()
 
+    var stockItems: HashMap<String, Int> = hashMapOf("attackPotion" to 0, "defensePotion" to 0, "PVPotion" to 0, "dodgePotion" to 0)
+
     var AvatarRencontre: HashMap<String, Rencontre> = HashMap()
 
     constructor(username: String, classe: UserClass, uid: String) {

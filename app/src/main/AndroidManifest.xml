@@ -39,6 +39,9 @@
             android:name=".Activities.Profil"
             android:exported="false" />
         <activity
+            android:name=".Activities.Shop"
+            android:exported="false" />
+        <activity
             android:name=".Activities.Connexion"
             android:exported="false" />
         <activity

@@ -37,6 +37,7 @@ import fr.isen.walkysocial.Activities.Connexion
 import fr.isen.walkysocial.Activities.Fight
 import fr.isen.walkysocial.Activities.History
 import fr.isen.walkysocial.Activities.Profil
+import fr.isen.walkysocial.Activities.Shop
 import fr.isen.walkysocial.Models.Boss
 import fr.isen.walkysocial.Models.Rencontre
 import fr.isen.walkysocial.Models.User
@@ -106,6 +107,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
                       true
                     }
                     R.id.item_2 -> {
+                        val shop = Intent(applicationContext, Shop::class.java)
+                        startActivity(shop)
+                        finish()
                         true
                     }
                     R.id.item_3-> {

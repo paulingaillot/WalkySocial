@@ -32,7 +32,6 @@ class Profil : AppCompatActivity() {
 
         // Boutons
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        bottomNavigation.selectedItemId = R.id.item_1
         bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.item_1 -> {
@@ -42,6 +41,9 @@ class Profil : AppCompatActivity() {
                     true
                 }
                 R.id.item_2 -> {
+                    val shop = Intent(applicationContext, Shop::class.java)
+                    startActivity(shop)
+                    finish()
                     true
                 }
                 R.id.item_3-> {

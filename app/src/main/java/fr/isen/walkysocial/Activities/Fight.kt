@@ -70,6 +70,9 @@ class Fight : AppCompatActivity() {
                     true
                 }
                 R.id.item_2 -> {
+                    val shop = Intent(applicationContext, Shop::class.java)
+                    startActivity(shop)
+                    finish()
                     true
                 }
                 R.id.item_3-> {
