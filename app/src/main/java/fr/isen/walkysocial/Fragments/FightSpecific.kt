@@ -36,7 +36,9 @@ class FightSpecific : Fragment() {
 
             view.findViewById<TextView>(R.id.pv).setText("PV = ${boss.HP} / ${boss.max_HP}")
             view.findViewById<TextView>(R.id.button4).setOnClickListener {
-                var win: Boolean = MainActivity.user.fight(boss)
+                var win: Boolean = MainActivity.user.fight(boss){
+
+                }
                 if (win) {
                     MainActivity.bosses.remove(boss);
                     boss.remove()

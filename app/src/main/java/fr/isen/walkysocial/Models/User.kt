@@ -12,6 +12,8 @@ class User {
     var username: String = ""
     var uid: String = ""
 
+    var coins: Int= 0
+
     var classe: UserClass = UserClass.TANK
 
     var HP: Int = 0
@@ -20,6 +22,7 @@ class User {
 
     var Atk : Int = 1
     var Def: Int = 1
+    var Esq: Int = 1
 
     var position: Position = Position(0.0,0.0)
     var isConnected: Long = System.currentTimeMillis()
@@ -34,6 +37,7 @@ class User {
         this.HP_Max = 500
         this.Atk = 1
         this.Def = 1
+        this.Esq = 1
     }
 
     constructor()
@@ -42,7 +46,7 @@ class User {
         val db = Firebase.firestore
         val profils = db.collection("user")
 
-        profils.whereEqualTo("username", username).get().addOnCompleteListener {
+        profils.whereEqualTo("uid", uid).get().addOnCompleteListener {
             it.result.documents[0].reference.set(MainActivity.user);
         }
     }
@@ -56,7 +60,7 @@ class User {
         }
     }
 
-    fun fight(boss: Boss): Boolean {
+    fun fight(boss: Boss, callback: (String) -> Unit): Boolean {
         while (this.HP > 0 && boss.HP > 0) {
             // L'utilisateur attaque le boss
             var userDamage=1
@@ -67,7 +71,10 @@ class User {
             boss.HP -= actualDamage
             if (boss.HP <= 0) {
                 return true
+            }else {
+                callback("Vous avez fait ${actualDamage} degat au boss. Il lui reste ${boss.HP} PV");
             }
+
 
             // Le boss attaque l'utilisateur
             var bossDamage = 1
@@ -78,6 +85,8 @@ class User {
             this.HP -= actualBossDamage
             if (this.HP <= 0) {
                 return false
+            }else {
+                callback("Le boss vous as fait ${actualBossDamage} degat au boss. Il vous reste ${this.HP} PV");
             }
         }
         return false
@@ -85,6 +94,28 @@ class User {
 
     fun getLifePercent():Double {
         return ((this.HP*100)/(this.HP_Max)).toDouble();
+    }
+
+    fun updateStats(user1: User, rencontre : Rencontre) {
+
+        if(isFibonacci(rencontre.nombre_rencontre)) {
+            when (user1.classe) {
+                UserClass.ARCHER -> {
+                    this.Esq ++
+                    // Bloc de code à exécuter lorsque la variable est égale à valeur1
+                }
+                UserClass.TANK -> {
+                    this.Def++
+                    // Bloc de code à exécuter lorsque la variable est égale à valeur2
+                }
+                UserClass.GUERRIER -> {
+                    this.Atk++;
+                }
+                UserClass.MAGE -> {
+                    this.HP++
+                }
+            }
+        }
     }
 
     companion object {
@@ -101,6 +132,19 @@ class User {
                     callback(it.result.documents[0].toObject(User::class.java)!!)
                 }
             }
+        }
+
+        fun isFibonacci(number: Int): Boolean {
+            var a = 0
+            var b = 1
+
+            while (b < number) {
+                val temp = b
+                b += a
+                a = temp
+            }
+
+            return b == number
         }
     }
 

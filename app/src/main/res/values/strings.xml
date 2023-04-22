@@ -27,4 +27,6 @@
     <string name="supprimerVotreCompte">Delete your account</string>
     <string name="voulezvousVraimentSupprimerVotreCompte">Are you sure you want to delete your account?\n</string>
     <string name="Oui">Yes</string>
+    <string name="Ouvrir">Open</string>
+    <string name="Arreter">Stop</string>
 </resources>

@@ -15,10 +15,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentContainerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.api.Distribution.BucketOptions.Linear
 import com.google.firebase.dynamiclinks.DynamicLink
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.dynamiclinks.ktx.shortLinkAsync
@@ -70,7 +74,6 @@ class Fight : AppCompatActivity() {
                 }
                 R.id.item_3-> {
                     val main = Intent(applicationContext, MainActivity::class.java)
-                    startActivity(main)
                     finish()
                     // Respond to navigation item 1 click
                     true
@@ -114,11 +117,49 @@ class Fight : AppCompatActivity() {
                 if(MainActivity.user.HP == 0) {
                     Toast.makeText(this, "Désolé mais vous ne pouvez pas attaquer de boss si vous n'avez pas de vie", Toast.LENGTH_SHORT).show()
                 } else {
-                    var win: Boolean = MainActivity.user.fight(boss)
+                    var attack_view = findViewById<ConstraintLayout>(R.id.attack_view)
+                    attack_view.visibility = View.VISIBLE
+
+                    val scrollView = findViewById<ScrollView>(R.id.scrollView3)
+                    var list_action = findViewById<LinearLayout>(R.id.list_action)
+                    var win: Boolean = MainActivity.user.fight(boss){
+
+                        var action  = TextView(this)
+                        action.text = it
+                        list_action.addView(action)
+                        scrollView.post {
+                            scrollView.fullScroll(ScrollView.FOCUS_DOWN)
+                        }
+                    }
                     if(win) {
+                        var action  = TextView(this)
+                        action.text = "Vous avez gagné. Vous remportez 500 coins"
+                        list_action.addView(action)
+                        scrollView.post {
+                            scrollView.fullScroll(ScrollView.FOCUS_DOWN)
+                        }
+
+                        var but = findViewById<Button>(R.id.fin)
+                        but.text = "Recuperer prix"
+                        but.setOnClickListener {
+                            MainActivity.user.coins += boss.max_HP
+                            attack_view.visibility = View.GONE
+                        }
                         MainActivity.bosses.remove(boss);
                         boss.remove()
                     }else {
+                        var action  = TextView(this)
+                        action.text = "Vous avez perdu. Reposez vous puis attaquez a nouveau."
+                        list_action.addView(action)
+                        scrollView.post {
+                            scrollView.fullScroll(ScrollView.FOCUS_DOWN)
+                        }
+
+                        var but = findViewById<Button>(R.id.fin)
+                        but.text = "Continuer"
+                        but.setOnClickListener {
+                            attack_view.visibility = View.GONE
+                        }
                         boss.save()
                     }
                     MainActivity.user.save()

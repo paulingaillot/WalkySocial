@@ -38,6 +38,7 @@ import fr.isen.walkysocial.Activities.Fight
 import fr.isen.walkysocial.Activities.History
 import fr.isen.walkysocial.Activities.Profil
 import fr.isen.walkysocial.Models.Boss
+import fr.isen.walkysocial.Models.Rencontre
 import fr.isen.walkysocial.Models.User
 import fr.isen.walkysocial.Services.GPSService
 import java.util.*
@@ -102,7 +103,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
                     R.id.item_1 -> {
                         val fight = Intent(applicationContext, Fight::class.java)
                         startActivity(fight)
-                        finish()
                       true
                     }
                     R.id.item_2 -> {
@@ -115,7 +115,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
                     R.id.item_4 -> {
                         val hist = Intent(applicationContext, History::class.java)
                         startActivity(hist)
-                        finish()
                         true
                     }
                     else -> false
@@ -144,6 +143,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
             val timer = Timer()
             timer.scheduleAtFixedRate(timerTask {
                 user.updateHP()
+                runOnUiThread {
+                    findViewById<LinearProgressIndicator>(R.id.progress).progress = user.getLifePercent().toInt()
+                }
             },0, 60 * 1000)
 
             // Maps
@@ -290,6 +292,17 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
         )
     }
 
+
+
+    override fun onPause() {
+        user.save();
+        super.onPause();
+    }
+
+    override fun onResume() {
+        super.onResume()
+        findViewById<LinearProgressIndicator>(R.id.progress).progress = user.getLifePercent().toInt()
+    }
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1

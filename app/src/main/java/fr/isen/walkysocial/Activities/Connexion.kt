@@ -32,27 +32,39 @@ class Connexion : AppCompatActivity() {
             var email = usernameView.text.toString();
             var password = passwordView.text.toString();
 
-            var auth = Firebase.auth
-            auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d("test", "signInWithEmail:success")
-                        User.getUserByUid(task.result.user!!.uid){
-                            if(it.uid == task.result.user!!.uid) {
-                                MainActivity.user = it
+            if(email != "" && password != "" ) {
+                var auth = Firebase.auth
+                auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d("test", "signInWithEmail:success")
+                            User.getUserByUid(task.result.user!!.uid) {
+                                if (it.uid == task.result.user!!.uid) {
+                                    MainActivity.user = it
 
-                                val main = Intent(applicationContext, MainActivity::class.java)
-                                startActivity(main)
-                                finish()
+                                    val main = Intent(applicationContext, MainActivity::class.java)
+                                    startActivity(main)
+                                    finish()
+                                }
                             }
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w("test", "signInWithEmail:failure", task.exception)
+                            Toast.makeText(
+                                baseContext,
+                                "Authentication failed.",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w("test", "signInWithEmail:failure", task.exception)
-                        Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
                     }
-                }
+            }else {
+                Toast.makeText(
+                    baseContext,
+                    "Authentication failed.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
         but2.setOnClickListener {

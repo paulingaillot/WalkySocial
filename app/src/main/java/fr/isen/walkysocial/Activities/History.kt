@@ -33,15 +33,16 @@ class History : AppCompatActivity() {
         // Affichage Historique
 
 
-        var u:User = MainActivity.user
-        var history:HashMap<String, Rencontre> = u.AvatarRencontre
+        var u: User = MainActivity.user
+        var history: HashMap<String, Rencontre> = u.AvatarRencontre
 
-        for(r in history) {
-            var username:String = r.key
-            var rencontre:Int = r.value.nombre_rencontre
+        for (r in history) {
+            var username: String = r.key
+            var rencontre: Int = r.value.nombre_rencontre
             val instant = Instant.ofEpochMilli(r.value.date_last_rencontre)
             val date = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
-            var dateEncoded:String = date.dayOfMonth.toString()+"/"+date.month.toString()+"/"+date.year.toString()+" "+date.hour.toString()+":"+date.minute.toString()+":"+date.second.toString()
+            var dateEncoded: String =
+                date.dayOfMonth.toString() + "/" + date.month.toString() + "/" + date.year.toString() + " " + date.hour.toString() + ":" + date.minute.toString() + ":" + date.second.toString()
 
             // Affichage
 
@@ -49,8 +50,8 @@ class History : AppCompatActivity() {
             l2.orientation = LinearLayout.HORIZONTAL
 
             var usernameEntry = TextView(this)
-            usernameEntry.text = username
-            usernameEntry.setPadding(100,0,100,0)
+            User.getUserByUid(username){usernameEntry.text = it.username}
+            usernameEntry.setPadding(100, 0, 100, 0)
             l2.addView(usernameEntry)
 
             var l3 = LinearLayout(this)
@@ -60,11 +61,11 @@ class History : AppCompatActivity() {
             l4.orientation = LinearLayout.HORIZONTAL
 
             var progress = LinearProgressIndicator(this)
-            progress.setProgressCompat(50, true)
-            progress.setPadding(0,0,100,0)
+            progress.setProgressCompat(progressToNextFibonacci(rencontre).toInt(), true)
+            progress.setPadding(0, 0, 100, 0)
 
             var progressValue = TextView(this)
-            progressValue.text = "$rencontre / 10"
+            progressValue.text = "$rencontre / ${nextFibonacci(rencontre)}"
 
 
             l4.addView(progressValue)
@@ -72,7 +73,7 @@ class History : AppCompatActivity() {
 
 
             var lastSeen = TextView(this)
-            lastSeen.text = "Dernière rencontre : "+dateEncoded
+            lastSeen.text = "Dernière rencontre : " + dateEncoded
 
             l3.addView(l4)
             l3.addView(lastSeen)
@@ -90,15 +91,63 @@ class History : AppCompatActivity() {
             when (item.itemId) {
                 R.id.item_3 -> {
                     val main = Intent(applicationContext, MainActivity::class.java)
-                    startActivity(main)
                     finish()
                     true
                 }
+
                 R.id.item_4 -> {
 
                     true
                 }
+
                 else -> false
+            }
+        }
+    }
+
+    fun progressToNextFibonacci(n: Int): Float {
+        // Vérifier si l'entrée est valide
+        if (n <= 0) {
+            throw IllegalArgumentException("L'entrée doit être un entier positif.")
+        }
+
+        // Calculer les deux nombres de Fibonacci les plus proches de l'entrée
+        var a = 0
+        var b = 1
+        while (b <= n) {
+            val temp = a
+            a = b
+            b = temp + b
+        }
+
+        val progressToNext = (n.toFloat() / b.toFloat()) * 100
+
+        return progressToNext
+    }
+
+    fun nextFibonacci(n: Int): Int {
+        // Vérifier si l'entrée est valide
+        if (n < 0) {
+            throw IllegalArgumentException("L'entrée doit être un entier positif ou nul.")
+        }
+
+        // Cas de base pour 0 et 1
+        if (n == 0 || n == 1) {
+            return 1
+        }
+
+        // Initialiser les deux nombres de Fibonacci précédents
+        var a = 0
+        var b = 1
+
+        // Itérer jusqu'à trouver le prochain nombre de Fibonacci
+        while (true) {
+            val temp = a
+            a = b
+            b = temp + b
+
+            if (b > n) {
+                return b
             }
         }
     }

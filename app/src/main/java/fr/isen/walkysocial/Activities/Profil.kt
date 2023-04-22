@@ -45,7 +45,6 @@ class Profil : AppCompatActivity() {
                 }
                 R.id.item_3-> {
                     val main = Intent(applicationContext, MainActivity::class.java)
-                    startActivity(main)
                     finish()
                     // Respond to navigation item 1 click
                     true
