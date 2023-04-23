@@ -2,10 +2,10 @@ package fr.isen.walkysocial
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.bluetooth.BluetoothDevice
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.graphics.drawable.Drawable
@@ -28,7 +28,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.firestore.ktx.firestore
@@ -39,17 +38,15 @@ import fr.isen.walkysocial.Activities.History
 import fr.isen.walkysocial.Activities.Profil
 import fr.isen.walkysocial.Activities.Shop
 import fr.isen.walkysocial.Models.Boss
-import fr.isen.walkysocial.Models.Rencontre
+import fr.isen.walkysocial.Models.Objets
 import fr.isen.walkysocial.Models.User
 import fr.isen.walkysocial.Services.GPSService
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.concurrent.timerTask
 
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationClickListener,
     GoogleMap.OnMyLocationButtonClickListener {
-
 
     override fun onStart() {
         super.onStart()
@@ -104,23 +101,26 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
                     R.id.item_1 -> {
                         val fight = Intent(applicationContext, Fight::class.java)
                         startActivity(fight)
-                      true
+                        true
                     }
+
                     R.id.item_2 -> {
                         val shop = Intent(applicationContext, Shop::class.java)
                         startActivity(shop)
-                        finish()
                         true
                     }
-                    R.id.item_3-> {
+
+                    R.id.item_3 -> {
                         // Respond to navigation item 1 click
                         true
                     }
+
                     R.id.item_4 -> {
                         val hist = Intent(applicationContext, History::class.java)
                         startActivity(hist)
                         true
                     }
+
                     else -> false
                 }
             }
@@ -137,7 +137,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
 
             bosses = ArrayList()
             profils.get().addOnCompleteListener {
-                it.result.forEach {boss ->
+                it.result.forEach { boss ->
                     bosses.add(boss.toObject(Boss::class.java))
                 }
             }
@@ -148,7 +148,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
             timer.scheduleAtFixedRate(timerTask {
                 user.updateHP()
                 runOnUiThread {
-                    findViewById<LinearProgressIndicator>(R.id.progress).progress = user.getLifePercent().toInt()
+                    findViewById<LinearProgressIndicator>(R.id.progress).progress =
+                        user.getLifePercent().toInt()
                 }
                 user.save()
             },0, 60 * 1000)
@@ -162,8 +163,15 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
 
             //Affichage HP user
 
-            findViewById<LinearProgressIndicator>(R.id.progress).progress = user.getLifePercent().toInt()
+            findViewById<LinearProgressIndicator>(R.id.progress).progress =
+                user.getLifePercent().toInt()
         }
+
+        // Creation Du BroadCast Receiver
+
+        val filter = IntentFilter()
+        filter.addAction("com.example.MY_ACTION")
+        registerReceiver(myReceiver, filter)
 
     }
 
@@ -204,9 +212,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
         // Chargement des points autours
         val db = Firebase.firestore
         val boss = db.collection("boss")
-        boss.get().addOnCompleteListener {it ->
+        boss.get().addOnCompleteListener { it ->
             for (doc in it.result.documents) {
-                var boss:Boss = doc.toObject(Boss::class.java)!!
+                var boss: Boss = doc.toObject(Boss::class.java)!!
                 map!!.addMarker(
                     MarkerOptions()
                         .flat(false)
@@ -297,6 +305,31 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
         )
     }
 
+    private val myReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action == "com.example.MY_ACTION") {
+                val item = intent.getSerializableExtra("objet") as? Objets
+                if (item != null) {
+                   updateBoostMap(item)
+                }
+            }
+        }
+    }
+
+    fun updateBoostMap(item: Objets) {
+        if (boost[item] == true) {
+
+        } else {
+            val timer = Timer()
+            timer.schedule(object : TimerTask() {
+                override fun run() {
+                    boost[item] = false
+                }
+            }, 5 * 60 * 1000)
+            boost[item] = true
+            Log.d("test", "On a booste votre :$item")
+        }
+    }
 
 
     override fun onPause() {
@@ -306,12 +339,19 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
 
     override fun onResume() {
         super.onResume()
-        findViewById<LinearProgressIndicator>(R.id.progress).progress = user.getLifePercent().toInt()
+        findViewById<LinearProgressIndicator>(R.id.progress).progress =
+            user.getLifePercent().toInt()
     }
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
         var user: User = User()
         var bosses: ArrayList<Boss> = ArrayList()
+        var boost: HashMap<Objets, Boolean> = hashMapOf(
+            Objets.ATTACK to false,
+            Objets.DEFENSE to false,
+            Objets.PV to false,
+            Objets.DODGE to false
+        )
     }
 }
