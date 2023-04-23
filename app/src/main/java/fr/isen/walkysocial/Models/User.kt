@@ -2,6 +2,7 @@ package fr.isen.walkysocial.Models
 
 import android.content.ComponentCallbacks
 import android.content.Intent
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import fr.isen.walkysocial.MainActivity
@@ -96,6 +97,7 @@ class User {
         return false
     }
 
+    @Exclude
     fun getLifePercent():Double {
         return ((this.HP*100)/(this.HP_Max)).toDouble();
     }
@@ -116,7 +118,7 @@ class User {
                     this.Atk++;
                 }
                 UserClass.MAGE -> {
-                    this.HP_Max++
+                    this.HP_Max+= 10
                 }
             }
         }

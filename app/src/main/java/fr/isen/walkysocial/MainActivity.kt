@@ -150,6 +150,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
                 runOnUiThread {
                     findViewById<LinearProgressIndicator>(R.id.progress).progress = user.getLifePercent().toInt()
                 }
+                user.save()
             },0, 60 * 1000)
 
             // Maps
