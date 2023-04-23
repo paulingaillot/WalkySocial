@@ -62,6 +62,10 @@ class User {
         }
     }
 
+    fun updateStockItem(objet: String, nombre: Int){
+        stockItems[objet]=nombre;
+    }
+
     fun fight(boss: Boss, callback: (String) -> Unit): Boolean {
         while (this.HP > 0 && boss.HP > 0) {
             // L'utilisateur attaque le boss

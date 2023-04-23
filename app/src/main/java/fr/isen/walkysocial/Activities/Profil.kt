@@ -23,11 +23,13 @@ class Profil : AppCompatActivity() {
         val textAttaque = findViewById<TextView>(R.id.textAttaque)
         val textType = findViewById<TextView>(R.id.textType)
         val textPV = findViewById<TextView>(R.id.textPV)
+        val textDodge = findViewById<TextView>(R.id.textDodge)
 
         textDefense.text = getString(R.string.defense, MainActivity.user.Def.toString())
         textAttaque.text = getString(R.string.attaque, MainActivity.user.Atk.toString())
         textType.text = getString(R.string.type, MainActivity.user.classe.toString())
         textPV.text = getString(R.string.pv, MainActivity.user.HP.toString(), MainActivity.user.HP_Max.toString())
+        textDodge.text = getString(R.string.dodge, MainActivity.user.Esq.toString())
 
 
         // Boutons

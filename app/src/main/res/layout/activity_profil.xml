@@ -38,22 +38,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
+        android:background="@drawable/bordure_rectangle"
         android:gravity="center"
         android:orientation="vertical"
-        android:background="@drawable/bordure_rectangle"
         app:layout_constraintBottom_toTopOf="@+id/layoutSetting"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headerProfil">
 
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:gravity="center"
             android:orientation="horizontal"
-            android:layout_marginTop="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -66,78 +65,87 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Personnage"
+                android:text="Character"
                 android:textSize="16sp" />
 
         </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
             android:gravity="center"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/type"
-            android:textSize="12sp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="15dp"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textAttaque"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/attaque"
-            android:textSize="12sp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="15dp"/>
+                <TextView
+                    android:id="@+id/textType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/type"
+                    android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/textDefense"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/defense"
-            android:textSize="12sp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="15dp"/>
+                <TextView
+                    android:id="@+id/textAttaque"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/attaque"
+                    android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/textPV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/pv"
-            android:textSize="12sp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="15dp"/>
+                <TextView
+                    android:id="@+id/textDefense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/defense"
+                    android:textSize="12sp" />
 
+                <TextView
+                    android:id="@+id/textDodge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/dodge"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/textPV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/pv"
+                    android:textSize="12sp" />
+
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/profil" />
+
+
+        </LinearLayout>
     </LinearLayout>
-
-        <ImageView
-            android:id="@+id/imageType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/profil" />
-
-
-    </LinearLayout>
-    </LinearLayout>
-
 
 
     <LinearLayout
@@ -145,9 +153,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
+        android:background="@drawable/bordure_rectangle"
         android:gravity="center"
         android:orientation="vertical"
-        android:background="@drawable/bordure_rectangle"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -156,9 +164,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:gravity="center"
             android:orientation="horizontal"
-            android:layout_marginTop="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -171,7 +179,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Parametres"
+                android:text="@string/settings"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -182,14 +190,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="15dp"
-            android:text="Changer de nom" />
+            android:text="@string/change_username" />
 
         <Button
             android:id="@+id/buttonDeco"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:text="Deconnexion" />
+            android:text="@string/deconnexion" />
 
 
     </LinearLayout>
@@ -215,10 +223,10 @@
         android:id="@+id/fightSpecific"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="50dp"
         android:layout_marginTop="24dp"
         android:visibility="gone"
-        android:layout_margin="50dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

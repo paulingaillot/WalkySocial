@@ -1,33 +1,42 @@
 package fr.isen.walkysocial.Activities
 
+import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import fr.isen.walkysocial.MainActivity
+import fr.isen.walkysocial.MainActivity.Companion.user
 import fr.isen.walkysocial.Models.Objets
 import fr.isen.walkysocial.R
 
 class Shop : AppCompatActivity() {
+
+    val prixItems: HashMap<Objets, Int> = hashMapOf(
+        Objets.ATTACK to 100,
+        Objets.DEFENSE to 100,
+        Objets.PV to 100,
+        Objets.DODGE to 100
+    )
+    val nomItems: HashMap<Objets, String> = hashMapOf(
+        Objets.ATTACK to "attackPotion",
+        Objets.DEFENSE to "defensePotion",
+        Objets.PV to "PVPotion",
+        Objets.DODGE to "dodgePotion"
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shop)
 
-        val prixItems: HashMap<Objets, Int> = hashMapOf(
-            Objets.ATTACK to 100,
-            Objets.DEFENSE to 100,
-            Objets.PV to 100,
-            Objets.DODGE to 100
-        )
-        val nomItems: HashMap<Objets, String> = hashMapOf(
-            Objets.ATTACK to "attackPotion",
-            Objets.DEFENSE to "defensePotion",
-            Objets.PV to "PVPotion",
-            Objets.DODGE to "dodgePotion"
-        )
+        //Initialisation nombre de coins
+        findViewById<TextView>(R.id.nbCoin).setText(user.coins.toString())
 
         //Initialisation des prix des items
         for (objet in Objets.values()) {
@@ -61,6 +70,12 @@ class Shop : AppCompatActivity() {
             val resourceId5 =
                 resources.getIdentifier(nomItems[objet] + "_nbUse", "id", packageName)
             val textStock= findViewById<TextView>(resourceId5)
+            textStock.setText(user.stockItems[nomItems[objet]].toString())
+
+            //bouton utiliser
+            val resourceId6 =
+                resources.getIdentifier(nomItems[objet] + "_buttonUse", "id", packageName)
+            val btnUse = findViewById<Button>(resourceId6)
 
             //Ajout des listeners aux boutons
             btnAjout.setOnClickListener {
@@ -78,41 +93,10 @@ class Shop : AppCompatActivity() {
             btnBuy.setOnClickListener {
                 nomItems[objet]?.let { it1 -> buy(it1,textAchat,textStock,prixItems[objet]) }
             }
+            btnUse.setOnClickListener {
+                use(objet,textStock)
+            }
         }
-
-
-        /*
-
-                //Button acheter
-                val btnBuyAttack = findViewById<Button>(R.id.attackPotion_buttonBuy)
-                val btnBuyDefense = findViewById<Button>(R.id.defensePotion_buttonBuy)
-                val btnBuyPV = findViewById<Button>(R.id.PVPotion_buttonBuy)
-                val btnBuyDodge = findViewById<Button>(R.id.dodgePotion_buttonBuy)
-
-                //Button utiliser objet
-                val btnUseAttack = findViewById<Button>(R.id.attackPotion_buttonUse)
-                val btnUseDefense = findViewById<Button>(R.id.defensePotion_buttonUse)
-                val btnUsePV = findViewById<Button>(R.id.PVPotion_buttonUse)
-                val btnUseDodge = findViewById<Button>(R.id.dodgePotion_buttonUse)
-
-                //textView stock objet
-                val nbUseAttack = findViewById<TextView>(R.id.attackPotion_nbUse)
-                val nbUseDefense = findViewById<TextView>(R.id.defensePotion_nbUse)
-                val nbUsePV = findViewById<TextView>(R.id.PVPotion_nbUse)
-                val nbUseDodge = findViewById<TextView>(R.id.dodgePotion_nbUse)
-
-                //Aout des listeners sur les boutons
-                //ajout
-                updateCounter(btnAjoutAttack, nbBuyAttack, 1)
-                updateCounter(btnAjoutDefense, nbBuyDefense, 1)
-                updateCounter(btnAjoutPV, nbBuyPV, 1)
-                updateCounter(btnAjoutDodge, nbBuyDodge, 1)
-                //enlever
-                updateCounter(btnEnleverAttack, nbBuyAttack, -1)
-                updateCounter(btnEnleverDefense, nbBuyDefense, -1)
-                updateCounter(btnEnleverPV, nbBuyPV, -1)
-                updateCounter(btnEnleverDodge, nbBuyDodge, -1)
-        */
 
 
         // Barre de navigation
@@ -180,6 +164,33 @@ class Shop : AppCompatActivity() {
         else{
 
             Toast.makeText(this, getString(R.string.message_manqueArgent), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun use(item: Objets, textNbUse: TextView){
+        /*
+        Permet à user d'utiliser un item selectionné.
+        Vérifie que user possède bien l'item dans son stock pour pouvoir l'utiliser.
+        */
+        var nom = nomItems[item]
+        var nbItem = user.stockItems[nom]
+
+        if (nbItem!! > 0){
+            nbItem -= 1
+            if (nom != null) {
+                user.updateStockItem(nom,nbItem)
+                user.save()
+            }
+
+            textNbUse.text = user.stockItems[nom].toString()
+
+            val intent = Intent("com.example.MY_ACTION")
+            intent.putExtra("objet", item)
+            sendBroadcast(intent)
+            finish()
+        }
+        else{
+            Toast.makeText(this, getString(R.string.message_manqueStock), Toast.LENGTH_SHORT).show()
         }
     }
 }
