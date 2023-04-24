@@ -339,7 +339,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
                         if (boost[item] == true) {
                             when (item) {
                                 Objets.ATTACK -> {
-                                    maxAtk += 60
+                                    maxAtk += 5 * 60
                                 }
 
                                 Objets.DEFENSE -> {
@@ -379,7 +379,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
 
                             when (item) {
                                 Objets.ATTACK -> {
-                                    maxAtk = 5
+                                    maxAtk = 5 * 60
                                     var timer1 = findViewById<TextView>(R.id.timerattackPotion)
                                     testatk.visibility = View.VISIBLE
 
