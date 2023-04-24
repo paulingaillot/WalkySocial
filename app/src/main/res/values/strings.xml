@@ -39,4 +39,5 @@
     <string name="Arreter">Stop</string>
     <string name="message_manqueArgent">You haven\'t enough coins to make this purchase! :)</string>
     <string name="message_manqueStock">Your stock is empty!</string>
+    <string name="sec" translatable="false">%s sec</string>
 </resources>

@@ -6,6 +6,7 @@ import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import fr.isen.walkysocial.MainActivity
+import fr.isen.walkysocial.MainActivity.Companion.boost
 import kotlin.random.Random
 
 class User {
@@ -58,10 +59,20 @@ class User {
 
     public fun updateHP() {
         var delay :Double = (System.currentTimeMillis() - this.lastHPtake).toDouble();
-        if((delay / 60000)> 1 && HP < HP_Max) {
-            HP += (delay / 60000).toInt()
-            if(HP> HP_Max) HP = HP_Max
-            this.lastHPtake = System.currentTimeMillis()
+        if(boost[Objets.PV] == false) {
+            if ((delay / 60000) > 1 && HP < HP_Max) {
+                HP += (delay / 60000).toInt()
+                if (HP > HP_Max) HP = HP_Max
+                this.lastHPtake = System.currentTimeMillis()
+            }
+        }else{
+            var hpBoost = HP_Max
+            hpBoost = Integer.max(hpBoost + 1, (hpBoost * 1.2).toInt())
+            if ((delay / 60000) > 1 && HP < hpBoost) {
+                HP += (delay / 60000).toInt()
+                if (HP > hpBoost) HP = hpBoost
+                this.lastHPtake = System.currentTimeMillis()
+            }
         }
     }
 
@@ -73,7 +84,11 @@ class User {
         while (this.HP > 0 && boss.HP > 0) {
             // L'utilisateur attaque le boss
             var userDamage=1
-            if(this.Atk != 1) userDamage = Random.nextInt(1, this.Atk)
+            var atk = this.Atk
+            if(boost[Objets.ATTACK] == true){
+                atk = Integer.max(atk + 1, (atk * 1.2).toInt())
+            }
+            if(atk != 1) userDamage = Random.nextInt(1, atk)
             val bossDefense = boss.def
             var actualDamage = maxOf(userDamage - bossDefense, 1)
             actualDamage = minOf(actualDamage, (boss.max_HP*0.1).toInt())
@@ -86,9 +101,12 @@ class User {
 
 
             // Le boss attaque l'utilisateur
+            var userDefense = this.Def
+            if(boost[Objets.DEFENSE] == true){
+                userDefense = Integer.max(userDefense + 1, (userDefense * 1.2).toInt())
+            }
             var bossDamage = 1
             if(boss.atk != 1 ) bossDamage = Random.nextInt(1, boss.atk)
-            val userDefense = this.Def
             var actualBossDamage = maxOf(bossDamage - userDefense, 1)
             actualBossDamage = minOf(actualBossDamage, (this.HP_Max*0.1).toInt())
             this.HP -= actualBossDamage

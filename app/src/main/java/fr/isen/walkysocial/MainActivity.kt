@@ -2,6 +2,7 @@ package fr.isen.walkysocial
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -14,8 +15,13 @@ import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -41,12 +47,24 @@ import fr.isen.walkysocial.Models.Boss
 import fr.isen.walkysocial.Models.Objets
 import fr.isen.walkysocial.Models.User
 import fr.isen.walkysocial.Services.GPSService
+import java.lang.Integer.min
+import java.lang.Thread.sleep
 import java.util.*
+import kotlin.concurrent.thread
 import kotlin.concurrent.timerTask
 
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationClickListener,
     GoogleMap.OnMyLocationButtonClickListener {
+
+    var maxAtk: Int = 5 * 60
+    var maxDef: Int = 5 * 60
+    var maxPV: Int = 5 * 60
+    var maxDodge: Int = 5 * 60
+    lateinit var testatk : LinearLayout
+    lateinit var testDef : LinearLayout
+    lateinit var testDodge : LinearLayout
+    lateinit var testPV : LinearLayout
 
     override fun onStart() {
         super.onStart()
@@ -105,7 +123,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
                     }
 
                     R.id.item_2 -> {
-                        val shop = Intent(applicationContext, Shop::class.java)
+                        val shop = Intent(this, Shop::class.java)
                         startActivity(shop)
                         true
                     }
@@ -142,6 +160,13 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
                 }
             }
 
+            boost = hashMapOf(
+                Objets.ATTACK to false,
+                Objets.DEFENSE to false,
+                Objets.PV to false,
+                Objets.DODGE to false
+            )
+
             //Update HP User
 
             val timer = Timer()
@@ -162,7 +187,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
 
 
             //Affichage HP user
-
+            user.HP = min(user.HP, user.HP_Max)
             findViewById<LinearProgressIndicator>(R.id.progress).progress =
                 user.getLifePercent().toInt()
         }
@@ -170,7 +195,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
         // Creation Du BroadCast Receiver
 
         val filter = IntentFilter()
-        filter.addAction("com.example.MY_ACTION")
+        filter.addAction("com.example.MY_ACTION2")
         registerReceiver(myReceiver, filter)
 
     }
@@ -307,27 +332,157 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
 
     private val myReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            if (intent?.action == "com.example.MY_ACTION") {
-                val item = intent.getSerializableExtra("objet") as? Objets
-                if (item != null) {
-                   updateBoostMap(item)
-                }
-            }
-        }
-    }
+                findViewById<LinearProgressIndicator>(R.id.progress).progress = 90
+                if (intent?.action == "com.example.MY_ACTION2") {
+                    val item = intent.getSerializableExtra("objet") as? Objets
+                    if (item != null) {
+                        if (boost[item] == true) {
+                            when (item) {
+                                Objets.ATTACK -> {
+                                    maxAtk += 60
+                                }
 
-    fun updateBoostMap(item: Objets) {
-        if (boost[item] == true) {
+                                Objets.DEFENSE -> {
+                                    maxDef += 5 * 60
+                                }
 
-        } else {
-            val timer = Timer()
-            timer.schedule(object : TimerTask() {
-                override fun run() {
-                    boost[item] = false
+                                Objets.DODGE -> {
+                                    maxDodge += 5 * 60
+                                }
+
+                                Objets.PV -> {
+                                    maxPV += 5 * 60
+                                }
+                                // autres cas
+                                else -> {
+                                    // code à exécuter pour les autres objets
+                                }
+                            }
+                        } else {
+                            if (item == Objets.PV) {
+                                user.HP = Integer.max(user.HP + 1, (user.HP * 1.2).toInt())
+                            }
+
+                            /*val resourceId = resources.getIdentifier("iconButton" + nomItems[item], "id", packageName)
+                        Log.d("test", "iconButton : " +"iconButton" + nomItems[item])
+                        val test = findViewById<LinearLayout>(resourceId)
+                        val resourceId2 = resources.getIdentifier("timer" + nomItems[item], "id", packageName)
+                        val timer1 = findViewById<TextView>(resourceId2)
+                        test.visibility = View.VISIBLE*/
+
+                            boost[item] = true
+
+                            var testatk = findViewById<LinearLayout>(R.id.iconButtonattackPotion)
+                            var testDef = findViewById<LinearLayout>(R.id.iconButtondefensePotion)
+                            var testDodge = findViewById<LinearLayout>(R.id.iconButtondodgePotion)
+                            var testPV = findViewById<LinearLayout>(R.id.iconButtonPVPotion)
+
+                            when (item) {
+                                Objets.ATTACK -> {
+                                    maxAtk = 5
+                                    var timer1 = findViewById<TextView>(R.id.timerattackPotion)
+                                    testatk.visibility = View.VISIBLE
+
+                                    val timer = Timer()
+                                    timer.schedule(object : TimerTask() {
+                                        var i: Int = 0
+                                        override fun run() {
+                                            i++
+                                            if (i == maxAtk) {
+                                                runOnUiThread {
+                                                    testatk.visibility = View.INVISIBLE
+                                                }
+                                                boost[item] = false
+                                                this.cancel()
+                                            }
+                                            runOnUiThread {
+                                                timer1.text = getString(R.string.sec, (maxAtk - i).toString())
+                                            }
+                                        }
+                                    }, 0, 1000)
+                                }
+
+                                Objets.DEFENSE -> {
+                                    maxDef = 5 * 60
+                                    var timer1 = findViewById<TextView>(R.id.timerdefensePotion)
+                                    testDef.visibility = View.VISIBLE
+                                    val timer = Timer()
+                                    timer.schedule(object : TimerTask() {
+                                        var i: Int = 0
+                                        override fun run() {
+                                            i++
+                                            if (i == maxDef) {
+                                                runOnUiThread {
+                                                    testDef.visibility = View.INVISIBLE
+                                                }
+                                                boost[item] = false
+                                                this.cancel()
+                                            }
+                                            runOnUiThread {
+                                                timer1.text =
+                                                    getString(R.string.sec, (maxDef - i).toString())
+                                            }
+                                        }
+                                    }, 0, 1000)
+                                }
+
+                                Objets.DODGE -> {
+                                    maxDodge = 5 * 60
+                                    var timer1 = findViewById<TextView>(R.id.timerdodgePotion)
+                                    testDodge.visibility = View.VISIBLE
+                                    val timer = Timer()
+                                    timer.schedule(object : TimerTask() {
+                                        var i: Int = 0
+                                        override fun run() {
+                                            i++
+                                            if (i == maxDodge) {
+                                                runOnUiThread {
+                                                    testDodge.visibility = View.INVISIBLE
+                                                }
+                                                boost[item] = false
+                                                this.cancel()
+                                            }
+                                            runOnUiThread {
+                                                timer1.text = getString(
+                                                    R.string.sec,
+                                                    (maxDodge - i).toString()
+                                                )
+                                            }
+                                        }
+                                    }, 0, 1000)
+                                }
+
+                                Objets.PV -> {
+                                    maxPV = 5 * 60
+                                    var timer1 = findViewById<TextView>(R.id.timerPVPotion)
+                                    val timer = Timer()
+                                    testPV.visibility = View.VISIBLE
+                                    timer.schedule(object : TimerTask() {
+                                        var i: Int = 0
+                                        override fun run() {
+                                            i++
+                                            if (i == maxPV) {
+                                                runOnUiThread {
+                                                    testPV.visibility = View.INVISIBLE
+                                                }
+                                                boost[item] = false
+                                                user.HP = min(user.HP, user.HP_Max)
+                                                this.cancel()
+                                            }
+                                            runOnUiThread {
+                                                timer1.text =
+                                                    getString(R.string.sec, (maxPV - i).toString())
+                                            }
+                                        }
+                                    }, 0, 1000)
+                                }
+                            }
+
+
+                            Log.d("test", "On a booste votre :$item")
+                        }
+                    }
                 }
-            }, 5 * 60 * 1000)
-            boost[item] = true
-            Log.d("test", "On a booste votre :$item")
         }
     }
 
@@ -337,10 +492,17 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLoca
         super.onPause();
     }
 
+    override fun onDestroy() {
+        unregisterReceiver(myReceiver)
+        super.onDestroy()
+    }
+
     override fun onResume() {
         super.onResume()
         findViewById<LinearProgressIndicator>(R.id.progress).progress =
             user.getLifePercent().toInt()
+        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigation.selectedItemId = R.id.item_3
     }
 
     companion object {

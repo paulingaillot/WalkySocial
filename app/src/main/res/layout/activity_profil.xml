@@ -94,46 +94,76 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginBottom="10dp"
                     android:text="@string/type"
                     android:textSize="12sp" />
+
 
                 <TextView
                     android:id="@+id/textAttaque"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="10dp"
                     android:text="@string/attaque"
                     android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/attackPotionBoost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text=""
+                    android:textSize="12sp" />
+
 
                 <TextView
                     android:id="@+id/textDefense"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="10dp"
                     android:text="@string/defense"
                     android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/defensePotionBoost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text=""
+                    android:textSize="12sp" />
+
 
                 <TextView
                     android:id="@+id/textDodge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="10dp"
                     android:text="@string/dodge"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dodgePotionBoost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text=""
                     android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/textPV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="10dp"
                     android:text="@string/pv"
                     android:textSize="12sp" />
 
+                <TextView
+                    android:id="@+id/PVPotionBoost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text=""
+                    android:textSize="12sp" />
 
             </LinearLayout>
 

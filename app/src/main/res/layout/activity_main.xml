@@ -7,6 +7,18 @@
     tools:context=".MainActivity">
 
 
+    <fragment
+        android:id="@+id/mapView"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:apiKey="AIzaSyCy1IcnmBxi94Wb0GA_nWEj9iwPld0kwCY"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".MainActivity" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
@@ -16,18 +28,7 @@
         app:layout_constraintTop_toBottomOf="@+id/mapView"
         app:menu="@menu/bottom_navigation_menu" />
 
-    <fragment
-        android:id="@+id/mapView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:apiKey="AIzaSyCy1IcnmBxi94Wb0GA_nWEj9iwPld0kwCY"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:context=".MainActivity"
-        tools:visibility="gone"
-        android:name="com.google.android.gms.maps.SupportMapFragment"/>
+    <!--tools:visibility="gone"-->
 
     <!-- Circular progress indicator -->
     <LinearLayout
@@ -63,7 +64,129 @@
             app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/testttt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
+        <LinearLayout
+            android:id="@+id/iconButtonattackPotion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/ButtonattackPotion"
+                style="?attr/materialIconButtonFilledStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:contentDescription="test"
+                app:srcCompat="@drawable/attaque" />
+
+            <TextView
+                android:id="@+id/timerattackPotion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bordure_rectangle_objet"
+                android:paddingHorizontal="5dp"
+                android:text="00:00"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/iconButtondefensePotion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/ButtondefensePotion"
+                style="?attr/materialIconButtonFilledStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:contentDescription="test"
+                app:srcCompat="@drawable/defense" />
+
+            <TextView
+                android:id="@+id/timerdefensePotion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bordure_rectangle_objet"
+                android:paddingHorizontal="5dp"
+                android:text="00:00"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/iconButtondodgePotion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/ButtondodgePotion"
+                style="?attr/materialIconButtonFilledStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:contentDescription="test"
+                app:srcCompat="@drawable/dodge" />
+
+            <TextView
+                android:id="@+id/timerdodgePotion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bordure_rectangle_objet"
+                android:paddingHorizontal="5dp"
+                android:text="00:00"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/iconButtonPVPotion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/ButtonPVPotion"
+                style="?attr/materialIconButtonFilledStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:contentDescription="test"
+                app:srcCompat="@drawable/pv" />
+
+            <TextView
+                android:id="@+id/timerPVPotion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bordure_rectangle_objet"
+                android:paddingHorizontal="5dp"
+                android:text="00:00"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

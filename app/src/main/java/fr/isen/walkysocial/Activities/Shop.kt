@@ -117,7 +117,6 @@ class Shop : AppCompatActivity() {
 
                 R.id.item_3 -> {
                     val main = Intent(applicationContext, MainActivity::class.java)
-                    startActivity(main)
                     finish()
                     true
                 }
@@ -184,10 +183,12 @@ class Shop : AppCompatActivity() {
 
             textNbUse.text = user.stockItems[nom].toString()
 
-            val intent = Intent("com.example.MY_ACTION")
+            finish()
+
+            val intent = Intent("com.example.MY_ACTION2")
             intent.putExtra("objet", item)
             sendBroadcast(intent)
-            finish()
+
         }
         else{
             Toast.makeText(this, getString(R.string.message_manqueStock), Toast.LENGTH_SHORT).show()
